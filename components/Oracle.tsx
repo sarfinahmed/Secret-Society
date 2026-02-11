@@ -67,7 +67,8 @@ const Oracle: React.FC = () => {
                 ) : (
                   <div className="relative">
                     <SparklesIcon className="w-6 h-6 text-gold absolute -top-4 -left-2 opacity-50" />
-                    <p className="text-xl md:text-2xl font-script leading-relaxed text-white">
+                    {/* Changed font-script to font-sans and added italic/medium for better readability */}
+                    <p className="text-lg md:text-xl font-sans font-medium italic leading-relaxed text-white/90">
                       "{prediction}"
                     </p>
                     <SparklesIcon className="w-6 h-6 text-gold absolute -bottom-4 -right-2 opacity-50" />
