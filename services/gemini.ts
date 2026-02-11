@@ -2,15 +2,14 @@ import { GoogleGenAI } from "@google/genai";
 
 // Ensure API key is present
 const apiKey = process.env.API_KEY;
-if (!apiKey) {
-  console.warn("Gemini API Key is missing. Please check your .env file or Vercel environment variables.");
-}
 
-const ai = new GoogleGenAI({ apiKey: apiKey || "dummy_key_to_prevent_crash" });
+// Initialize AI only if key exists to avoid immediate crash, though calls will fail gracefully later
+const ai = new GoogleGenAI({ apiKey: apiKey || "dummy_key_for_build" });
 
 export const generateMemberWish = async (memberName: string): Promise<string> => {
-  if (!apiKey) {
-    return `Happy 2nd Anniversary, ${memberName}! (API Key missing)`;
+  if (!apiKey || apiKey === "dummy_key_for_build") {
+    console.error("API Key is missing in Vercel Environment Variables.");
+    return `Error: API Key missing. Please add 'API_KEY' in Vercel Settings > Environment Variables and Redeploy.`;
   }
 
   try {
@@ -28,6 +27,6 @@ export const generateMemberWish = async (memberName: string): Promise<string> =>
     return response.text || `Cheers to ${memberName} for being an amazing part of Secret Society!`;
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return `Happy 2nd Anniversary, ${memberName}! The Secret Society cherishes you.`;
+    return `Happy 2nd Anniversary, ${memberName}! The Secret Society cherishes you. (AI Error)`;
   }
 };
