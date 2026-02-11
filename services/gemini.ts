@@ -1,11 +1,16 @@
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+// Ensure API key is present
+const apiKey = process.env.API_KEY;
+if (!apiKey) {
+  console.warn("Gemini API Key is missing. Please check your .env file or Vercel environment variables.");
+}
+
+const ai = new GoogleGenAI({ apiKey: apiKey || "dummy_key_to_prevent_crash" });
 
 export const generateMemberWish = async (memberName: string): Promise<string> => {
   if (!apiKey) {
-    return "API Key missing. But we know you are awesome!";
+    return `Happy 2nd Anniversary, ${memberName}! (API Key missing)`;
   }
 
   try {
